@@ -1,0 +1,85 @@
+#ELIMINEM LOGS PESANTS 
+import os
+import subprocess
+
+#----------------------------------------------
+#MOSTRA ESPAI OCUPAT PER /VAR/LOG INICIALMENT
+
+torigen = subprocess.check_output ("du -hs /var/log | awk '{print $1}'",shell=True);
+torigen = torigen[0:3]
+torigen = float(torigen)
+print ("-------------------------------------")
+print ("SIZE OF VAR/LOG:",torigen," MB")
+print ("-------------------------------------")
+print ("")
+#----------------------------------------------
+
+#----------------------------------------------
+#BUIDA FITXERS LOG
+os.system("cp /dev/null /var/log/debug")
+os.system("cp /dev/null /var/log/kern.log")
+os.system("cp /dev/null /var/syslog")
+os.system("cp /dev/null /var/log/mail.*")
+os.system("cp /dev/null /var/log/mail.*.*")
+os.system("cp /dev/null /var/log/backup_dropbox.log")
+os.system("rm -r /var/log/*.gz")
+os.system("rm -r /var/log/*.1")
+os.system("rm -r /var/log/*.*.1")
+os.system("rm -r /var/log/*.log.*")
+
+#---- neteja apt-get
+print("")
+print ("-------------------------------------")
+print("REMOVE APT-GET CACHE PACKAGES")
+print ("-------------------------------------")
+print("")
+os.system("apt-get autoclean")
+os.system("apt-get clean")
+
+#----------------------------------------------
+#ENVIA CORREU 
+import smtplib
+
+sender = 'denisgualda@batetdelaserra.cat'
+receivers = ['denisgualda@batetdelaserra.cat']
+
+message = """From: From Person <denisgualda@batetdelaserra.cat>
+To: To Person <denisgualda@batetdelaserra.cat>
+Subject: LOGS DE SISTEMA ESBORRATS
+
+{torigen}
+LOGS ESBORRATS
+
+("cp /dev/null /var/log/debug")
+("cp /dev/null /var/log/kern.log")
+("cp /dev/null /var/syslog")
+("cp /dev/null /var/log/mail.*")
+("cp /dev/null /var/log/mail.*.*")
+("cp /dev/null /var/log/backup_dropbox.log")
+("rm -r /var/log/*.gz")
+("rm -r /var/log/*.1")
+("rm -r /var/log/*.*.1")
+("rm -r /var/log/*.log.*")
+"""
+
+try:
+   smtpObj = smtplib.SMTP('localhost')
+   smtpObj.sendmail(sender, receivers, message)         
+   print "Successfully sent email"
+except SMTPException:
+   print "Error: unable to send email"
+#----------------------------------------------
+
+#----------------------------------------------
+#MOSTRA TAMANY /VAR/LOG DESPRES DELIMINAR LOGS
+tfinal = subprocess.check_output ("du -hs /var/log | awk '{print $1}'",shell=True);
+tfinal = tfinal[0:3]
+tfinal = int(tfinal)
+
+#CALCULA DIFERENCIA DE TAMANY ESBORRAT
+diferencia_tamany = torigen - tfinal
+print ("")
+print ("-------------------------------------")
+print ("REMOVED: ",diferencia_tamany," MB")
+print ("-------------------------------------")
+#----------------------------------------------
