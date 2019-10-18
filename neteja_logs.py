@@ -40,11 +40,11 @@ os.system("apt-get clean")
 #ENVIA CORREU 
 import smtplib
 
-sender = 'denisgualda@batetdelaserra.cat'
-receivers = ['denisgualda@batetdelaserra.cat']
+sender = '****mail@mail.com*****'
+receivers = ['****mail@mail.com*****']
 
-message = """From: From Person <denisgualda@batetdelaserra.cat>
-To: To Person <denisgualda@batetdelaserra.cat>
+message = """From: From Person <****mail@mail.com*****>
+To: To Person <****mail@mail.com*****>
 Subject: LOGS DE SISTEMA ESBORRATS
 
 {torigen}
