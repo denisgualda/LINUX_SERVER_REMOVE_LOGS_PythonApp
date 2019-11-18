@@ -22,10 +22,17 @@ os.system("cp /dev/null /var/syslog")
 os.system("cp /dev/null /var/log/mail.*")
 os.system("cp /dev/null /var/log/mail.*.*")
 os.system("cp /dev/null /var/log/backup_dropbox.log")
+os.system("cp /dev/null /var/log/debug")
+os.system("cp /dev/null /var/log/bandwidth")
 os.system("rm -r /var/log/*.gz")
 os.system("rm -r /var/log/*.1")
 os.system("rm -r /var/log/*.*.1")
 os.system("rm -r /var/log/*.log.*")
+os.system("rm -r /var/log/syslog.*.gz")
+os.system("rm -r /var/log/btmp.*")
+
+
+
 
 #---- neteja apt-get
 print("")
@@ -40,11 +47,11 @@ os.system("apt-get clean")
 #ENVIA CORREU 
 import smtplib
 
-sender = '****mail@mail.com*****'
-receivers = ['****mail@mail.com*****']
+sender = 'denisgualda@batetdelaserra.cat'
+receivers = ['mail@tosend.com']
 
-message = """From: From Person <****mail@mail.com*****>
-To: To Person <****mail@mail.com*****>
+message = """From: From Person <mail@tosend.com>
+To: To Person <mail@tosend.com>
 Subject: LOGS DE SISTEMA ESBORRATS
 
 {torigen}
